@@ -601,6 +601,7 @@ We are grateful for their exceptional work and generous contribution to open sou
 
 [![Star History Chart](https://api.star-history.com/svg?repos=hpcaitech/Open-Sora&type=Date)](https://star-history.com/#hpcaitech/Open-Sora&Date)
 
+## Quick commands 
 
 conda create -n open python=3.12
 pip install -U pip setuptools wheel
@@ -608,3 +609,19 @@ pip3 install torch==2.5.1 torchvision torchaudio --index-url https://download.py
 pip3 install -U xformers --index-url https://download.pytorch.org/whl/cu121
 pip install -v -e .
 pip install packaging ninja
+
+pip install colossalai==0.4.7
+
+# install flash attention
+# set enable_flash_attn=False in config to disable flash attention
+pip install packaging ninja
+pip install flash-attn --no-build-isolation
+
+# install apex
+# set enable_layernorm_kernel=False in config to disable apex
+pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" git+https://github.com/NVIDIA/apex.git
+
+
+
+https://github.com/open-mmlab/mmengine/commit/2e0ab7a92220d2f0c725798047773495d589c548#diff-a189a45814666cfc323bd01246e5c4892dd4cf625f82270ebfc37cf6edf14d2fR38
+pip install tensornvme
