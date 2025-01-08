@@ -600,3 +600,11 @@ We are grateful for their exceptional work and generous contribution to open sou
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=hpcaitech/Open-Sora&type=Date)](https://star-history.com/#hpcaitech/Open-Sora&Date)
+
+
+conda create -n open python=3.12
+pip install -U pip setuptools wheel
+pip3 install torch==2.5.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip3 install -U xformers --index-url https://download.pytorch.org/whl/cu121
+pip install -v -e .
+pip install packaging ninja
