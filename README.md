@@ -603,17 +603,71 @@ We are grateful for their exceptional work and generous contribution to open sou
 
 
 ## Quick commands 
+
+### Byh baseline conda env
+baseline model
+
+conda create -n opensora_3.10_121 python=3.10
+conda activate opensora_3.10_121
+pip install -U pip setuptools wheel
+pip install -r requirements/requirements-cu121.txt
+pip install -v -e .
+pip install packaging ninja
+pip install git+https://github.com/hpcaitech/TensorNVMe.git
+pip install flash-attn --no-build-isolation
+ModuleNotFoundError: No module named 'colossalai.utils.safetensors'
+pip install colossalai==0.4.7
+ImportError: /home/banyh2000/anaconda3/envs/opensora_3.10_121/bin/../lib/libstdc++.so.6: version `GLIBCXX_3.4.30' not found 
+conda install -c conda-forge gcc=12.1.0
+"/home/banyh2000/anaconda3/envs/opensora_3.10_121/lib/python3.10/site-packages/torchvision/io/video.py", line 132, in write_video
+    frame.pict_type = "NONE"
+  File "av/video/frame.pyx", line 193, in av.video.frame.VideoFrame.pict_type.__set__
+TypeError: an integer is required
+find the file change frame.pict_type = "NONE" to frame.pict_type = 1
+
+our model
+conda create -n opensora_3.11_2.5.1 python=3.11
+conda activate opensora_3.11_2.5.1
+pip install -U pip setuptools wheel
+' together
+pip3 install torch==2.5.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu127
+pip3 install -U xformers --index-url https://download.pytorch.org/whl/cu127
+pip install -v -e .
+'
+pip3 install torch==2.5.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip3 install -U xformers --index-url https://download.pytorch.org/whl/cu121
+pip install colossalai==0.4.7
+pip3 install torch==2.5.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip install git+https://github.com/hpcaitech/TensorNVMe.git
+conda install -c conda-forge gcc=12.1.0
+pip install flash-attn --no-build-isolation
+
+
 ```
-conda create -n open python=3.12
+conda create -n open python=3.11
 pip install -U pip setuptools wheel
 pip3 install torch==2.5.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 pip3 install -U xformers --index-url https://download.pytorch.org/whl/cu121
 pip install -v -e .
-pip install packaging ninja
 pip install colossalai==0.4.7
 pip install packaging ninja
+pip install git+https://github.com/hpcaitech/TensorNVMe.git
 pip install flash-attn --no-build-isolation
+
+
 pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" git+https://github.com/NVIDIA/apex.git
 https://github.com/open-mmlab/mmengine/commit/2e0ab7a92220d2f0c725798047773495d589c548#diff-a189a45814666cfc323bd01246e5c4892dd4cf625f82270ebfc37cf6edf14d2fR38
-pip install tensornvme
 ```
+
+ImportError: /home/banyh2000/anaconda3/envs/opensora/bin/../lib/libstdc++.so.6: version `GLIBCXX_3.4.30' not found (required by /home/banyh2000/anaconda3/envs/opensora/lib/python3.11/site-packages/tensornvme/_C.cpython-311-x86_64-linux-gnu.so)
+conda install -c conda-forge gcc=12.1.0
+conda install -c conda-forge libstdcxx-ng
+
+pip uninstall flash-attn
+FLASH_ATTENTION_FORCE_BUILD=TRUE pip install flash-attn
+
+3.10
+121
+
+pip uninstall tensornvme
+pip install git+https://github.com/hpcaitech/TensorNVMe.git
