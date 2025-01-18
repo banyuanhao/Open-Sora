@@ -25,6 +25,7 @@ from timm.models.vision_transformer import Mlp
 
 from opensora.acceleration.communications import all_to_all, split_forward_gather_backward
 from opensora.acceleration.parallel_states import get_sequence_parallel_group
+from opensora.models.layers.positonal_embeddings import VisionLLaMA3DRopePositionalEncoder
 
 approx_gelu = lambda: nn.GELU(approximate="tanh")
 
@@ -162,11 +163,15 @@ class Attention(nn.Module):
         self.rope = False
         if rope is not None:
             self.rope = True
-            self.rotary_emb = rope
+            # if rope is class VisionLLaMA3DRopePositionalEncoder, create an instance of it
+            if issubclass(rope, VisionLLaMA3DRopePositionalEncoder):
+                self.rotary_emb = rope({})
+            else:
+                self.rotary_emb = rope
         
         self.is_causal = False
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, T = None, H = None, W = None) -> torch.Tensor:
         B, N, C = x.shape
         # flash attn is not memory efficient for small sequences, this is empirical
         enable_flash_attn = self.enable_flash_attn and (N > B)
@@ -178,14 +183,20 @@ class Attention(nn.Module):
         if self.qk_norm_legacy:
             # WARNING: this may be a bug
             if self.rope:
-                q = self.rotary_emb(q)
-                k = self.rotary_emb(k)
+                if isinstance(self.rotary_emb, VisionLLaMA3DRopePositionalEncoder):
+                    q, k = self.rotary_emb(q, k, T, H, W)
+                else:
+                    q = self.rotary_emb(q)
+                    k = self.rotary_emb(k)
             q, k = self.q_norm(q), self.k_norm(k)
         else:
             q, k = self.q_norm(q), self.k_norm(k)
             if self.rope:
-                q = self.rotary_emb(q)
-                k = self.rotary_emb(k)
+                if isinstance(self.rotary_emb, VisionLLaMA3DRopePositionalEncoder):
+                    q, k = self.rotary_emb(q, k, T, H, W)
+                else:
+                    q = self.rotary_emb(q)
+                    k = self.rotary_emb(k)
 
         if enable_flash_attn:
             from flash_attn import flash_attn_func

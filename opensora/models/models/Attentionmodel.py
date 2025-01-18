@@ -31,6 +31,7 @@ from opensora.models.layers.blocks import (
 )
 from opensora.registry import MODELS
 from opensora.utils.ckpt_utils import load_checkpoint
+from opensora.models.layers.positonal_embeddings import VisionLLaMA3DRopePositionalEncoder
 
 
 class AttentionBlock(nn.Module):
@@ -40,6 +41,7 @@ class AttentionBlock(nn.Module):
         num_heads,
         mlp_ratio=4.0,
         drop_path=0.0,
+        # rope
         rope=None,
         qk_norm=False,
         mode:str = None,
@@ -97,6 +99,8 @@ class AttentionBlock(nn.Module):
         t0=None,  # t with timestamp=0
         T=None,  # number of frames
         S=None,  # number of pixel patches
+        H=None,  # height
+        W=None,  # width
     ):
         # prepare modulate parameters
         B, N, C = x.shape
@@ -117,14 +121,14 @@ class AttentionBlock(nn.Module):
         # attention
         if self.mode == "temporal":
             x_m = rearrange(x_m, "B (T S) C -> (B S) T C", T=T, S=S)
-            x_m = self.attn(x_m)
+            x_m = self.attn(x_m, T, H, W)
             x_m = rearrange(x_m, "(B S) T C -> B (T S) C", T=T, S=S)
         elif self.mode == "spatial":
             x_m = rearrange(x_m, "B (T S) C -> (B T) S C", T=T, S=S)
-            x_m = self.attn(x_m)
+            x_m = self.attn(x_m, T, H, W)
             x_m = rearrange(x_m, "(B T) S C -> B (T S) C", T=T, S=S)
         elif self.mode == "full":
-            x_m = self.attn(x_m)
+            x_m = self.attn(x_m, T, H, W)
         else:
             raise ValueError(f"Unknown mode: {self.mode}")
 
@@ -235,7 +239,6 @@ class STD3_Attn_Rope(PreTrainedModel):
         # input size related
         self.patch_size = config.patch_size
         self.input_sq_size = config.input_sq_size
-        self.pos_embed = PositionEmbedding2D(config.hidden_size)
         self.rope = RotaryEmbedding(dim=self.hidden_size // self.num_heads)
 
         # embedding
@@ -268,6 +271,7 @@ class STD3_Attn_Rope(PreTrainedModel):
                     enable_layernorm_kernel=config.enable_layernorm_kernel,
                     mode = "spatial",
                     enable_sequence_parallelism=config.enable_sequence_parallelism,
+                    rope=self.rope.rotate_queries_or_keys
                 )
                 for i in range(config.depth)
             ]
@@ -287,7 +291,7 @@ class STD3_Attn_Rope(PreTrainedModel):
                     enable_layernorm_kernel=config.enable_layernorm_kernel,
                     enable_sequence_parallelism=config.enable_sequence_parallelism,
                     mode = "full",
-                    rope=self.rope.rotate_queries_or_keys,
+                    rope=VisionLLaMA3DRopePositionalEncoder
                 )
                 for i in range(config.depth)
             ]
@@ -388,7 +392,6 @@ class STD3_Attn_Rope(PreTrainedModel):
         base_size = round(S**0.5)
         resolution_sq = (height[0].item() * width[0].item()) ** 0.5
         scale = resolution_sq / self.input_sq_size
-        pos_emb = self.pos_embed(x, H, W, scale=scale, base_size=base_size)
 
         # === get timestep embed ===
         t = self.t_embedder(timestep, dtype=x.dtype)  # [B, C]
@@ -423,8 +426,8 @@ class STD3_Attn_Rope(PreTrainedModel):
 
         # === blocks ===
         for spatial_block, full_block in zip(self.spatial_blocks, self.full_blocks):
-            x = auto_grad_checkpoint(spatial_block, x, y, t_mlp, y_lens, x_mask, t0_mlp, T, S)
-            x = auto_grad_checkpoint(full_block, x, y, t_mlp, y_lens, x_mask, t0_mlp, T, S)
+            x = auto_grad_checkpoint(spatial_block, x, y, t_mlp, y_lens, x_mask, t0_mlp, T, S, H, W)
+            x = auto_grad_checkpoint(full_block, x, y, t_mlp, y_lens, x_mask, t0_mlp, T, S, H, W)
 
         if self.enable_sequence_parallelism:
             x = rearrange(x, "B (T S) C -> B T S C", T=T, S=S)

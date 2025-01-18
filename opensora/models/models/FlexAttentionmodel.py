@@ -14,6 +14,7 @@ from transformers import PretrainedConfig, PreTrainedModel
 from opensora.acceleration.checkpoint import auto_grad_checkpoint
 from opensora.acceleration.communications import gather_forward_split_backward, split_forward_gather_backward
 from opensora.acceleration.parallel_states import get_sequence_parallel_group
+from opensora.models.models.Attentionmodel import AttentionBlock
 from opensora.models.layers.blocks import (
     FlexAttention,
     CaptionEmbedder,
@@ -234,6 +235,8 @@ class STD3_Attn_Flex(PreTrainedModel):
         # input size related
         self.patch_size = config.patch_size
         self.input_sq_size = config.input_sq_size
+        
+        
 
         # embedding
         self.x_embedder = PatchEmbed3D(config.patch_size, config.in_channels, config.hidden_size)
@@ -250,6 +253,8 @@ class STD3_Attn_Flex(PreTrainedModel):
             act_layer=approx_gelu,
             token_num=config.model_max_length,
         )
+        
+        self.rope = RotaryEmbedding(dim=self.hidden_size // self.num_heads)
 
         # spatial blocks
         drop_path = [x.item() for x in torch.linspace(0, self.drop_path, config.depth)]
@@ -265,6 +270,7 @@ class STD3_Attn_Flex(PreTrainedModel):
                     enable_layernorm_kernel=config.enable_layernorm_kernel,
                     mode = "spatial",
                     enable_sequence_parallelism=config.enable_sequence_parallelism,
+                    rope=self.rope.rotate_queries_or_keys
                 )
                 for i in range(config.depth)
             ]
@@ -274,7 +280,7 @@ class STD3_Attn_Flex(PreTrainedModel):
         drop_path = [x.item() for x in torch.linspace(0, self.drop_path, config.depth)]
         self.full_blocks = nn.ModuleList(
             [
-                AttentionBlock(
+                FlexAttentionBlock(
                     hidden_size=config.hidden_size,
                     num_heads=config.num_heads,
                     mlp_ratio=config.mlp_ratio,
