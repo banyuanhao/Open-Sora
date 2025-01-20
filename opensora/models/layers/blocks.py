@@ -26,6 +26,7 @@ from timm.models.vision_transformer import Mlp
 from opensora.acceleration.communications import all_to_all, split_forward_gather_backward
 from opensora.acceleration.parallel_states import get_sequence_parallel_group
 from opensora.models.layers.positonal_embeddings import VisionLLaMA3DRopePositionalEncoder
+from torch.nn.attention.flex_attention import flex_attention
 
 approx_gelu = lambda: nn.GELU(approximate="tanh")
 
@@ -164,7 +165,7 @@ class Attention(nn.Module):
         if rope is not None:
             self.rope = True
             # if rope is class VisionLLaMA3DRopePositionalEncoder, create an instance of it
-            if issubclass(rope, VisionLLaMA3DRopePositionalEncoder):
+            if isinstance(rope, type):
                 self.rotary_emb = rope({})
             else:
                 self.rotary_emb = rope
@@ -193,7 +194,11 @@ class Attention(nn.Module):
             q, k = self.q_norm(q), self.k_norm(k)
             if self.rope:
                 if isinstance(self.rotary_emb, VisionLLaMA3DRopePositionalEncoder):
+                    q = q.transpose(1, 2)
+                    k = k.transpose(1, 2)
                     q, k = self.rotary_emb(q, k, T, H, W)
+                    q = q.transpose(1, 2).contiguous()
+                    k = k.transpose(1, 2).contiguous()
                 else:
                     q = self.rotary_emb(q)
                     k = self.rotary_emb(k)
@@ -205,6 +210,10 @@ class Attention(nn.Module):
             q = q.permute(0, 2, 1, 3)
             k = k.permute(0, 2, 1, 3)
             v = v.permute(0, 2, 1, 3)
+            
+            # print(q.dtype)
+            # print(k.dtype)
+            
             x = flash_attn_func(
                 q,
                 k,
@@ -263,16 +272,11 @@ class FlexAttention(nn.Module):
         self.qk_norm_legacy = qk_norm_legacy
         self.attn_drop = nn.Dropout(attn_drop)
         self.proj = nn.Linear(dim, dim)
-        self.proj_drop = nn.Dropout(proj_drop)
-
-        self.rope = False
-        if rope is not None:
-            self.rope = True
-            self.rotary_emb = rope
-        
+        self.proj_drop = nn.Dropout(proj_drop)        
         self.is_causal = False
+        self.flex_attention = torch.compile(flex_attention)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, T = None, H = None, W = None,score_function: callable = None) -> torch.Tensor:
         B, N, C = x.shape
         # flash attn is not memory efficient for small sequences, this is empirical
         enable_flash_attn = self.enable_flash_attn and (N > B)
@@ -281,33 +285,24 @@ class FlexAttention(nn.Module):
 
         qkv = qkv.view(qkv_shape).permute(2, 0, 3, 1, 4)
         q, k, v = qkv.unbind(0)
-        if self.qk_norm_legacy:
-            # WARNING: this may be a bug
-            if self.rope:
-                q = self.rotary_emb(q)
-                k = self.rotary_emb(k)
-            q, k = self.q_norm(q), self.k_norm(k)
-        else:
-            q, k = self.q_norm(q), self.k_norm(k)
-            if self.rope:
-                q = self.rotary_emb(q)
-                k = self.rotary_emb(k)
+        q, k = self.q_norm(q), self.k_norm(k)
 
         if enable_flash_attn:
-            from flash_attn import flash_attn_func
-
+            # from flash_attn import flash_attn_func
             # (B, #heads, N, #dim) -> (B, N, #heads, #dim)
-            q = q.permute(0, 2, 1, 3)
-            k = k.permute(0, 2, 1, 3)
-            v = v.permute(0, 2, 1, 3)
-            x = flash_attn_func(
-                q,
-                k,
-                v,
-                dropout_p=self.attn_drop.p if self.training else 0.0,
-                softmax_scale=self.scale,
-                causal=self.is_causal,
-            )
+            # q = q.permute(0, 2, 1, 3)
+            # k = k.permute(0, 2, 1, 3)
+            # v = v.permute(0, 2, 1, 3)
+            # x = flash_attn_func(
+            #     q,
+            #     k,
+            #     v,
+            #     dropout_p=self.attn_drop.p if self.training else 0.0,
+            #     softmax_scale=self.scale,
+            #     causal=self.is_causal,
+            # )
+            q = q * self.scale
+            x = self.flex_attention(q, k, v, score_function, scale = self.scale)
         else:
             dtype = q.dtype
             q = q * self.scale

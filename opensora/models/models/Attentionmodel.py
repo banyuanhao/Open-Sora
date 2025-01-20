@@ -328,8 +328,8 @@ class STD3_Attn_Rope(PreTrainedModel):
         nn.init.constant_(self.fps_embedder.mlp[2].weight, 0)
         nn.init.constant_(self.fps_embedder.mlp[2].bias, 0)
 
-        # Initialize timporal blocks
-        for block in self.temporal_blocks:
+        # Initialize full blocks
+        for block in self.full_blocks:
             nn.init.constant_(block.attn.proj.weight, 0)
             nn.init.constant_(block.cross_attn.proj.weight, 0)
             nn.init.constant_(block.mlp.fc2.weight, 0)
@@ -476,7 +476,7 @@ def STD3_Attn_Rope_v1(from_pretrained=None, **kwargs):
     if force_huggingface or from_pretrained is not None and not os.path.exists(from_pretrained):
         model = STD3_Attn_Rope.from_pretrained(from_pretrained, **kwargs)
     else:
-        config = STD3_Attn_Rope_Config(depth=28, hidden_size=1152, patch_size=(1, 2, 2), num_heads=16, **kwargs)
+        config = STD3_Attn_Rope_Config(depth=16, hidden_size=1024, patch_size=(1, 2, 2), num_heads=16, **kwargs)
         model = STD3_Attn_Rope(config)
         if from_pretrained is not None:
             load_checkpoint(model, from_pretrained)
@@ -494,3 +494,37 @@ def STD3_Attn_Rope_v1(from_pretrained=None, **kwargs):
 #         if from_pretrained is not None:
 #             load_checkpoint(model, from_pretrained)
 #     return model
+
+if __name__ == "__main__":
+    from opensora.utils.config_utils import parse_configs
+    
+    # cfg = parse_configs(training=True)
+    # text_encoder = build_module(cfg.get("text_encoder", None), MODELS, device=device, dtype=dtype)
+    
+    # forward(self, x, timestep, y, mask=None, x_mask=None, fps=None, height=None, width=None, **kwargs)
+    
+    # constrain dtype to bfloat16
+    
+    model = STD3_Attn_Rope_v1(enable_flash_attn=True)
+    device = 'cuda'
+    batch_size = 3
+    
+    tensor = torch.randn(batch_size, 4, 24, 32, 32)
+    time_step = torch.randint(0, 100, size=(batch_size,)).reshape(batch_size)
+    y = torch.randint(0, 100, size=(batch_size, 1, 300, 4096))
+    fps = torch.tensor((1,))
+    height = torch.tensor((1,))
+    width = torch.tensor((1,))
+    
+    tensor = tensor.to(device)
+    time_step = time_step.to(device)
+    y = y.to(device)
+    fps = fps.to(device)
+    height = height.to(device)
+    width = width.to(device)
+    model = model.to(device, dtype=torch.bfloat16)
+    
+    output = model(tensor, time_step, y, height=height, width=width, fps=fps)
+    print(output.shape)
+    print("congradulations!")
+    

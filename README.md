@@ -358,6 +358,11 @@ python scripts/inference.py configs/opensora-v1-2/inference/sample.py \
   --num-frames 4s --resolution 720p \
   --layernorm-kernel False --flash-attn False \
   --prompt "a beautiful waterfall"
+
+python scripts/inference.py configs/opensora-v1-2/inference/sample.py \
+  --num-frames 4s --resolution 720p \
+  --layernorm-kernel False \
+  --prompt "a beautiful waterfall"
 ```
 
 ### Sequence Parallelism Inference

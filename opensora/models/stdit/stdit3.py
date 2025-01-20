@@ -100,6 +100,10 @@ class STDiT3Block(nn.Module):
     ):
         # prepare modulate parameters
         B, N, C = x.shape
+        # print(self.scale_shift_table.shape)
+        # print(t.reshape(B, 6, -1).shape)
+        # torch.Size([6, 1152])
+        # torch.Size([2, 6, 1152])
         shift_msa, scale_msa, gate_msa, shift_mlp, scale_mlp, gate_mlp = (
             self.scale_shift_table[None] + t.reshape(B, 6, -1)
         ).chunk(6, dim=1)
@@ -113,7 +117,6 @@ class STDiT3Block(nn.Module):
         if x_mask is not None:
             x_m_zero = t2i_modulate(self.norm1(x), shift_msa_zero, scale_msa_zero)
             x_m = self.t_mask_select(x_mask, x_m, x_m_zero, T, S)
-
         # attention
         if self.temporal:
             x_m = rearrange(x_m, "B (T S) C -> (B S) T C", T=T, S=S)
@@ -353,6 +356,16 @@ class STDiT3(PreTrainedModel):
         return y, y_lens
 
     def forward(self, x, timestep, y, mask=None, x_mask=None, fps=None, height=None, width=None, **kwargs):
+        # print("x", x.shape)
+        # print("timestep", timestep.shape)
+        # print("y", y.shape)
+        # print("mask", mask.shape)
+        # print("x_mask", x_mask.shape)
+        # print("fps", fps.shape)
+        # print("height", height.shape)
+        # print("width", width.shape)
+        # exit()
+        # print(x.shape)
         dtype = self.x_embedder.proj.weight.dtype
         B = x.size(0)
         x = x.to(dtype)
@@ -430,9 +443,12 @@ class STDiT3(PreTrainedModel):
             x = rearrange(x, "B T S C -> B (T S) C", T=T, S=S)
 
         # === final layer ===
+        # print(x.shape)
         x = self.final_layer(x, t, x_mask, t0, T, S)
+        # print(x.shape)
         x = self.unpatchify(x, T, H, W, Tx, Hx, Wx)
-
+        # print(x.shape)
+        # exit()
         # cast to float32 for better accuracy
         x = x.to(torch.float32)
         return x
@@ -488,3 +504,34 @@ def STDiT3_3B_2(from_pretrained=None, **kwargs):
         if from_pretrained is not None:
             load_checkpoint(model, from_pretrained)
     return model
+
+
+if __name__ == "__main__":
+    from opensora.utils.config_utils import parse_configs
+    
+    # cfg = parse_configs(training=True)
+    # text_encoder = build_module(cfg.get("text_encoder", None), MODELS, device=device, dtype=dtype)
+    
+    # forward(self, x, timestep, y, mask=None, x_mask=None, fps=None, height=None, width=None, **kwargs)
+    
+    model = STDiT3_XL_2()
+    device = 'cuda'
+    batch_size = 16
+    
+    tensor = torch.randn(batch_size, 4, 24, 16*2, 16*2)
+    time_step = torch.randint(0, 100, size=(batch_size, 1))
+    y = torch.randint(0, 100, size=(batch_size, 1, 300, 4096))
+    fps = torch.randn(24)
+    height = torch.tensor((1,))
+    width = torch.tensor((1,))
+    
+    tensor = tensor.to(device)
+    time_step = time_step.to(device)
+    y = y.to(device)
+    fps = fps.to(device)
+    height = height.to(device)
+    width = width.to(device)
+    model = model.to(device)
+    
+    
+    output = model(tensor, time_step, y, height=height, width=width, fps=fps)

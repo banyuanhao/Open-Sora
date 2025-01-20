@@ -7,12 +7,12 @@ def get_t_x_y(idx, grid_scale = [1, 1, 1]):
     F, W, H = token_shape
     return (idx // (W*H)) * grid_scale[0] , (idx % (W*H) // W) *grid_scale[1], (idx % (W*H) % W) *grid_scale[2]
 
-def score_brownian(score, batch, head, token_q, token_kv):
-    
+def score_brownian(score, batch, head, token_q, token_kv, T, W, H, grid_scale = [1, 1, 1]):
     Width_factor = 0.2
-    Height_factor = 0.2
-    F_q, W_q, H_q = get_t_x_y(token_q)
-    F_kv, W_kv, H_kv = get_t_x_y(token_kv)
+    Height_factor = 0.2    
+    F_q, W_q, H_q = (token_q // (W*H)) * grid_scale[0] ,(token_q % (W*H) // W) *grid_scale[1], (token_q % (W*H) % W) * grid_scale[2]
+    F_kv, W_kv, H_kv = (token_kv // (W*H)) * grid_scale[0] , (token_kv % (W*H) // W) *grid_scale[1], (token_kv % (W*H) % W) * grid_scale[2]
+    
     Numerator_width = (W_q - W_kv)**2
     Numerator_height = (H_q - H_kv)**2
     time_diff = torch.abs(F_q - F_kv) * 0.05
@@ -30,6 +30,9 @@ def score_brownian(score, batch, head, token_q, token_kv):
 def score_test(score, batch, head, token_q, token_kv):
     score = torch.where(token_q//2 == 0, score*2, score)
     return score
+
+import functools
+score_brownian = functools.partial(score_brownian, T=24, H=16, W=16, grid_scale=[1, 1, 1])
 
 class Repro(nn.Module):
     def __init__(self, n_head=4):
