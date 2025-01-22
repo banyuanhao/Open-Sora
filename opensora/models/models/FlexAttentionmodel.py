@@ -479,7 +479,7 @@ def STD3_Attn_Flex_v1(from_pretrained=None, **kwargs):
         model = STD3_Attn_Flex.from_pretrained(from_pretrained, **kwargs)
     else:
         print("creating model STD3_Attn_Flex_v1")
-        config = STD3_Attn_Flex_Config(depth=24, hidden_size=1024, patch_size=(1, 2, 2), num_heads=16, **kwargs)
+        config = STD3_Attn_Flex_Config(depth=16, hidden_size=1024, patch_size=(1, 2, 2), num_heads=16, **kwargs)
         model = STD3_Attn_Flex(config)
         if from_pretrained is not None:
             print("loading checkpoint")
