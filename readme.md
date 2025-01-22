@@ -56,7 +56,7 @@ please refer to the [github issue](https://github.com/hpcaitech/Open-Sora/issues
 
 ## Workdone
 
-In the folder `opensora/models/models`, `Attentionmodel.py` contains the baseline model and `FlexAttentionmodel.py` has our model.
+Previous models are placed in the folder `opensora/models/stdit`. I created a new folder, in which `opensora/models/models`, `Attentionmodel.py` contains the baseline model and `FlexAttentionmodel.py` has our model.
 When using our model, please specify score function in forward() function.
 
 I have slightly modify the depth and the dimension of the model. Please refer to the file 'opensora/models/stdit/stdit3.py' for the original version.
