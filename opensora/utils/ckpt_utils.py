@@ -11,7 +11,7 @@ from colossalai.booster import Booster
 from colossalai.checkpoint_io import GeneralCheckpointIO
 from colossalai.utils.safetensors import save as async_save
 from safetensors.torch import load_file
-from tensornvme.async_file_io import AsyncFileWriter
+# from tensornvme.async_file_io import AsyncFileWriter
 from torch.optim import Optimizer
 from torch.optim.lr_scheduler import _LRScheduler
 from torchvision.datasets.utils import download_url
