@@ -70,7 +70,7 @@ class FlexAttentionBlock(nn.Module):
             qk_norm=qk_norm,
             enable_flash_attn=enable_flash_attn,
         )
-        self.cross_attn = mha_cls(hidden_size, num_heads)
+        # self.cross_attn = mha_cls(hidden_size, num_heads)
         self.norm2 = get_layernorm(hidden_size, eps=1e-6, affine=False, use_kernel=enable_layernorm_kernel)
         self.mlp = Mlp(
             in_features=hidden_size, hidden_features=int(hidden_size * mlp_ratio), act_layer=approx_gelu, drop=0
@@ -142,7 +142,7 @@ class FlexAttentionBlock(nn.Module):
         x = x + self.drop_path(x_m_s)
 
         # cross attention
-        x = x + self.cross_attn(x, y, mask)
+        # x = x + self.cross_attn(x, y, mask)
 
         # modulate (MLP)
         x_m = t2i_modulate(self.norm2(x), shift_mlp, scale_mlp)
@@ -330,7 +330,7 @@ class STD3_Attn_Flex(PreTrainedModel):
         # Initialize timporal blocks
         for block in self.full_blocks:
             nn.init.constant_(block.attn.proj.weight, 0)
-            nn.init.constant_(block.cross_attn.proj.weight, 0)
+            # nn.init.constant_(block.cross_attn.proj.weight, 0)
             nn.init.constant_(block.mlp.fc2.weight, 0)
 
     def get_dynamic_size(self, x):
