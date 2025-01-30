@@ -27,6 +27,7 @@ from opensora.models.layers.blocks import (
     SizeEmbedder,
     T2IFinalLayer,
     TimestepEmbedder,
+    LabelEmbedder,
     approx_gelu,
     get_layernorm,
     t2i_modulate,
@@ -175,6 +176,7 @@ class STD3_Attn_Flex_Config(PretrainedConfig):
         in_channels=4,
         patch_size=(1, 2, 2),
         hidden_size=1152,
+        num_classes=1000,
         depth=28,
         num_heads=16,
         mlp_ratio=4.0,
@@ -189,7 +191,7 @@ class STD3_Attn_Flex_Config(PretrainedConfig):
         enable_sequence_parallelism=False,
         only_train_temporal=False,
         freeze_y_embedder=False,
-        skip_y_embedder=False,
+        skip_y_embedder=True,
         **kwargs,
     ):
         self.input_size = input_size
@@ -197,6 +199,7 @@ class STD3_Attn_Flex_Config(PretrainedConfig):
         self.in_channels = in_channels
         self.patch_size = patch_size
         self.hidden_size = hidden_size
+        self.num_classes = num_classes
         self.depth = depth
         self.num_heads = num_heads
         self.mlp_ratio = mlp_ratio
@@ -249,14 +252,14 @@ class STD3_Attn_Flex(PreTrainedModel):
             nn.SiLU(),
             nn.Linear(config.hidden_size, 6 * config.hidden_size, bias=True),
         )
-        self.y_embedder = CaptionEmbedder(
-            in_channels=config.caption_channels,
-            hidden_size=config.hidden_size,
-            uncond_prob=config.class_dropout_prob,
-            act_layer=approx_gelu,
-            token_num=config.model_max_length,
-        )
-
+        # self.y_embedder = CaptionEmbedder(
+        #     in_channels=config.caption_channels,
+        #     hidden_size=config.hidden_size,
+        #     uncond_prob=config.class_dropout_prob,
+        #     act_layer=approx_gelu,
+        #     token_num=config.model_max_length,
+        # )
+        self.y_embedder = LabelEmbedder(config.num_classes, config.hidden_size, config.class_dropout_prob)
         # spatial blocks
         drop_path = [x.item() for x in torch.linspace(0, self.drop_path, config.depth)]
         self.spatial_blocks = nn.ModuleList(
@@ -360,11 +363,12 @@ class STD3_Attn_Flex(PreTrainedModel):
         return y, y_lens
 
     def forward(self, x, timestep, y, mask=None, x_mask=None, fps=None, height=None, width=None, score_function=None, **kwargs):
+        # 将y转换为long类型,但其他输入保持bfloat16类型
+        y = y.long()  # 确保y是long类型
         dtype = self.x_embedder.proj.weight.dtype
         B = x.size(0)
         x = x.to(dtype)
         timestep = timestep.to(dtype)
-        y = y.to(dtype)
 
         # === get pos embed ===
         _, _, Tx, Hx, Wx = x.size()
@@ -398,7 +402,8 @@ class STD3_Attn_Flex(PreTrainedModel):
         # === get timestep embed ===
         t = self.t_embedder(timestep, dtype=x.dtype)  # [B, C]
         fps = self.fps_embedder(fps.unsqueeze(1), B)
-        t = t + fps
+        y = self.y_embedder(y, self.training)
+        t = t + fps + y
         t_mlp = self.t_block(t)
         t0 = t0_mlp = None
         if x_mask is not None:
@@ -472,7 +477,7 @@ class STD3_Attn_Flex(PreTrainedModel):
         return x
 
 
-@MODELS.register_module("STD3_Attn_Flex_v1")
+# @MODELS.register_module("STD3_Attn_Flex_v1")
 def STD3_Attn_Flex_v1(from_pretrained=None, **kwargs):
     force_huggingface = kwargs.pop("force_huggingface", False)
     if force_huggingface or from_pretrained is not None and not os.path.exists(from_pretrained):
@@ -529,11 +534,12 @@ if __name__ == "__main__":
     
     model = STD3_Attn_Flex_v1(enable_flash_attn=True)
     device = 'cuda'
-    batch_size = 2
+    batch_size = 1
     
     tensor = torch.randn(batch_size, 4, 24, 32, 32)
     time_step = torch.randint(0, 100, size=(batch_size,)).reshape(batch_size)
-    y = torch.randint(0, 100, size=(batch_size, 1, 300, 4096))
+    # y = torch.randint(0, 100, size=(batch_size, 1, 300, 4096))
+    y = torch.randint(0, 999, size=(batch_size, )).reshape(batch_size)
     fps = torch.tensor((1,))
     height = torch.tensor((1,))
     width = torch.tensor((1,))

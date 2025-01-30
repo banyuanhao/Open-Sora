@@ -10,12 +10,14 @@ from rotary_embedding_torch import RotaryEmbedding
 from timm.models.layers import DropPath
 from timm.models.vision_transformer import Mlp
 from transformers import PretrainedConfig, PreTrainedModel
+import functools
 
 from opensora.acceleration.checkpoint import auto_grad_checkpoint
 from opensora.acceleration.communications import gather_forward_split_backward, split_forward_gather_backward
 from opensora.acceleration.parallel_states import get_sequence_parallel_group
+from opensora.models.models.Attentionmodel import AttentionBlock
 from opensora.models.layers.blocks import (
-    Attention,
+    FlexAttention,
     CaptionEmbedder,
     MultiHeadCrossAttention,
     PatchEmbed3D,
@@ -32,18 +34,15 @@ from opensora.models.layers.blocks import (
 )
 from opensora.registry import MODELS
 from opensora.utils.ckpt_utils import load_checkpoint
-from opensora.models.layers.positonal_embeddings import VisionLLaMA3DRopePositionalEncoder
 
 
-class AttentionBlock(nn.Module):
+class FlexAttentionBlock(nn.Module):
     def __init__(
         self,
         hidden_size,
         num_heads,
         mlp_ratio=4.0,
         drop_path=0.0,
-        # rope
-        rope=None,
         qk_norm=False,
         mode:str = None,
         enable_flash_attn=False,
@@ -56,11 +55,12 @@ class AttentionBlock(nn.Module):
         self.enable_flash_attn = enable_flash_attn
         self.enable_sequence_parallelism = enable_sequence_parallelism
 
-        if self.enable_sequence_parallelism and self.mode != "spatial":
+        if self.enable_sequence_parallelism:
+            raise ValueError("Sequence parallelism is only supported for spatial mode")
             attn_cls = SeqParallelAttention
             mha_cls = SeqParallelMultiHeadCrossAttention
         else:
-            attn_cls = Attention
+            attn_cls = FlexAttention
             mha_cls = MultiHeadCrossAttention
 
         self.norm1 = get_layernorm(hidden_size, eps=1e-6, affine=False, use_kernel=enable_layernorm_kernel)
@@ -69,7 +69,6 @@ class AttentionBlock(nn.Module):
             num_heads=num_heads,
             qkv_bias=True,
             qk_norm=qk_norm,
-            rope=rope,
             enable_flash_attn=enable_flash_attn,
         )
         # self.cross_attn = mha_cls(hidden_size, num_heads)
@@ -100,8 +99,9 @@ class AttentionBlock(nn.Module):
         t0=None,  # t with timestamp=0
         T=None,  # number of frames
         S=None,  # number of pixel patches
-        H=None,  # height
-        W=None,  # width
+        H=None,  # height of the image
+        W=None,  # width of the image
+        score_function: callable = None
     ):
         # prepare modulate parameters
         B, N, C = x.shape
@@ -122,14 +122,14 @@ class AttentionBlock(nn.Module):
         # attention
         if self.mode == "temporal":
             x_m = rearrange(x_m, "B (T S) C -> (B S) T C", T=T, S=S)
-            x_m = self.attn(x_m, T, H, W)
+            x_m = self.attn(x_m, T, H, W, score_function=score_function)
             x_m = rearrange(x_m, "(B S) T C -> B (T S) C", T=T, S=S)
         elif self.mode == "spatial":
             x_m = rearrange(x_m, "B (T S) C -> (B T) S C", T=T, S=S)
-            x_m = self.attn(x_m, T, H, W)
+            x_m = self.attn(x_m, T, H, W, score_function=score_function)
             x_m = rearrange(x_m, "(B T) S C -> B (T S) C", T=T, S=S)
         elif self.mode == "full":
-            x_m = self.attn(x_m, T, H, W)
+            x_m = self.attn(x_m, T, H, W, score_function=score_function)
         else:
             raise ValueError(f"Unknown mode: {self.mode}")
 
@@ -166,8 +166,8 @@ class AttentionBlock(nn.Module):
         return x
 
 
-class STD3_Attn_Rope_Config(PretrainedConfig):
-    model_type = "STD3_Attn_Rope"
+class STD3_Attn_Flex_Config(PretrainedConfig):
+    model_type = "STD3_Attn_Flex"
 
     def __init__(
         self,
@@ -218,8 +218,8 @@ class STD3_Attn_Rope_Config(PretrainedConfig):
         super().__init__(**kwargs)
 
 
-class STD3_Attn_Rope(PreTrainedModel):
-    config_class = STD3_Attn_Rope_Config
+class STD3_Attn_Flex(PreTrainedModel):
+    config_class = STD3_Attn_Flex_Config
 
     def __init__(self, config):
         super().__init__(config)
@@ -259,7 +259,9 @@ class STD3_Attn_Rope(PreTrainedModel):
         #     act_layer=approx_gelu,
         #     token_num=config.model_max_length,
         # )
+
         self.y_embedder = LabelEmbedder(config.num_classes, config.hidden_size, config.class_dropout_prob)
+
         # spatial blocks
         drop_path = [x.item() for x in torch.linspace(0, self.drop_path, config.depth)]
         self.spatial_blocks = nn.ModuleList(
@@ -284,7 +286,7 @@ class STD3_Attn_Rope(PreTrainedModel):
         drop_path = [x.item() for x in torch.linspace(0, self.drop_path, config.depth)]
         self.full_blocks = nn.ModuleList(
             [
-                AttentionBlock(
+                FlexAttentionBlock(
                     hidden_size=config.hidden_size,
                     num_heads=config.num_heads,
                     mlp_ratio=config.mlp_ratio,
@@ -293,8 +295,7 @@ class STD3_Attn_Rope(PreTrainedModel):
                     enable_flash_attn=config.enable_flash_attn,
                     enable_layernorm_kernel=config.enable_layernorm_kernel,
                     enable_sequence_parallelism=config.enable_sequence_parallelism,
-                    mode = "full",
-                    rope=VisionLLaMA3DRopePositionalEncoder
+                    mode = "full"
                 )
                 for i in range(config.depth)
             ]
@@ -331,7 +332,7 @@ class STD3_Attn_Rope(PreTrainedModel):
         nn.init.constant_(self.fps_embedder.mlp[2].weight, 0)
         nn.init.constant_(self.fps_embedder.mlp[2].bias, 0)
 
-        # Initialize full blocks
+        # Initialize timporal blocks
         for block in self.full_blocks:
             nn.init.constant_(block.attn.proj.weight, 0)
             # nn.init.constant_(block.cross_attn.proj.weight, 0)
@@ -363,7 +364,7 @@ class STD3_Attn_Rope(PreTrainedModel):
             y = y.squeeze(1).view(1, -1, self.hidden_size)
         return y, y_lens
 
-    def forward(self, x, timestep, y, mask=None, x_mask=None, fps=None, height=None, width=None, **kwargs):
+    def forward(self, x, timestep, y, mask=None, x_mask=None, fps=None, height=None, width=None, score_function=None, **kwargs):
         # 将y转换为long类型,但其他输入保持bfloat16类型
         y = y.long()  # 确保y是long类型
         dtype = self.x_embedder.proj.weight.dtype
@@ -374,6 +375,9 @@ class STD3_Attn_Rope(PreTrainedModel):
         # === get pos embed ===
         _, _, Tx, Hx, Wx = x.size()
         T, H, W = self.get_dynamic_size(x)
+        
+        # partial score function 
+        score_function = functools.partial(score_function, T=T, H=H, W=W, grid_scale=[1, 1, 1])
 
         # adjust for sequence parallelism
         # we need to ensure H * W is divisible by sequence parallel size
@@ -432,7 +436,7 @@ class STD3_Attn_Rope(PreTrainedModel):
         # === blocks ===
         for spatial_block, full_block in zip(self.spatial_blocks, self.full_blocks):
             x = auto_grad_checkpoint(spatial_block, x, y, t_mlp, y_lens, x_mask, t0_mlp, T, S, H, W)
-            x = auto_grad_checkpoint(full_block, x, y, t_mlp, y_lens, x_mask, t0_mlp, T, S, H, W)
+            x = auto_grad_checkpoint(full_block, x, y, t_mlp, y_lens, x_mask, t0_mlp, T, S, H, W, score_function=score_function)
 
         if self.enable_sequence_parallelism:
             x = rearrange(x, "B (T S) C -> B T S C", T=T, S=S)
@@ -475,15 +479,17 @@ class STD3_Attn_Rope(PreTrainedModel):
         return x
 
 
-# @MODELS.register_module("STD3_Attn_Rope_v1")
-def STD3_Attn_Rope_v1(from_pretrained=None, **kwargs):
+@MODELS.register_module("STD3_Attn_Flex_v1")
+def STD3_Attn_Flex_v1(from_pretrained=None, **kwargs):
     force_huggingface = kwargs.pop("force_huggingface", False)
     if force_huggingface or from_pretrained is not None and not os.path.exists(from_pretrained):
-        model = STD3_Attn_Rope.from_pretrained(from_pretrained, **kwargs)
+        model = STD3_Attn_Flex.from_pretrained(from_pretrained, **kwargs)
     else:
-        config = STD3_Attn_Rope_Config(depth=16, hidden_size=1024, patch_size=(1, 2, 2), num_heads=16, **kwargs)
-        model = STD3_Attn_Rope(config)
+        print("creating model STD3_Attn_Flex_v1")
+        config = STD3_Attn_Flex_Config(depth=16, hidden_size=1024, patch_size=(1, 2, 2), num_heads=16, **kwargs)
+        model = STD3_Attn_Flex(config)
         if from_pretrained is not None:
+            print("loading checkpoint")
             load_checkpoint(model, from_pretrained)
     return model
 
@@ -500,7 +506,7 @@ def STD3_Attn_Rope_v1(from_pretrained=None, **kwargs):
 #             load_checkpoint(model, from_pretrained)
 #     return model
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
     from opensora.utils.config_utils import parse_configs
     
     # cfg = parse_configs(training=True)
@@ -508,15 +514,35 @@ if __name__ == "__main__":
     
     # forward(self, x, timestep, y, mask=None, x_mask=None, fps=None, height=None, width=None, **kwargs)
     
-    # constrain dtype to bfloat16
+    def score_brownian(score, batch, head, token_q, token_kv, T, W, H, grid_scale = [1, 1, 1]):
+        Width_factor = 0.2
+        Height_factor = 0.2    
+        F_q, W_q, H_q = (token_q // (W*H)) * grid_scale[0] ,(token_q % (W*H) // W) *grid_scale[1], (token_q % (W*H) % W) * grid_scale[2]
+        F_kv, W_kv, H_kv = (token_kv // (W*H)) * grid_scale[0] , (token_kv % (W*H) // W) *grid_scale[1], (token_kv % (W*H) % W) * grid_scale[2]
+        
+        Numerator_width = (W_q - W_kv)**2
+        Numerator_height = (H_q - H_kv)**2
+        time_diff = torch.abs(F_q - F_kv) * 0.05
+        time_diff = time_diff + (time_diff == 0) * 0.05
+        Cofficient_time = time_diff
+        Denominator_width = 2 * Height_factor**2 * Cofficient_time
+        Denominator_height = 2 * Width_factor**2 * Cofficient_time
+        Cofficient_height = 1 / torch.sqrt(2 * torch.pi * Height_factor**2 * Cofficient_time)
+        Cofficient_width = 1 / torch.sqrt(2 * torch.pi * Width_factor**2 * Cofficient_time)
+        value = Cofficient_width * torch.exp(-Numerator_width / Denominator_width) * Cofficient_height * torch.exp(-Numerator_height / Denominator_height)
+        score = score + value
+        
+        return score
     
-    model = STD3_Attn_Rope_v1(enable_flash_attn=True)
+    model = STD3_Attn_Flex_v1(enable_flash_attn=True)
     device = 'cuda'
-    batch_size = 1
+    batch_size = 2
     
     tensor = torch.randn(batch_size, 4, 24, 32, 32)
     time_step = torch.randint(0, 100, size=(batch_size,)).reshape(batch_size)
+    # y = torch.randint(0, 100, size=(batch_size, 1, 300, 4096))
     y = torch.randint(0, 999, size=(batch_size, )).reshape(batch_size)
+
     fps = torch.tensor((1,))
     height = torch.tensor((1,))
     width = torch.tensor((1,))
@@ -529,7 +555,6 @@ if __name__ == "__main__":
     width = width.to(device)
     model = model.to(device, dtype=torch.bfloat16)
     
-    output = model(tensor, time_step, y, height=height, width=width, fps=fps)
+    output = model(tensor, time_step, y, height=height, width=width, fps=fps, score_function=score_brownian)
     print(output.shape)
     print("congradulations!")
-    
