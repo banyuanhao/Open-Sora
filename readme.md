@@ -60,3 +60,7 @@ Previous models are placed in the folder `opensora/models/stdit`. I created a ne
 When using our model, please specify score function in forward() function.
 
 I have slightly modify the depth and the dimension of the model. Please refer to the file 'opensora/models/stdit/stdit3.py' for the original version.
+
+
+
+torchrun --standalone --nproc_per_node 2 scripts/train_pixel.py     configs/opensora-v1-2/train/pixel.py --data-path video_info.csv

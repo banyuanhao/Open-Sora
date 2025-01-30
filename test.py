@@ -1,21 +1,8 @@
-import mmengine.optim.optimizer.builder
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
 
-import mmengine.registry.build_functions
+df = pd.read_csv('video_info.csv')
+label_encoder = LabelEncoder()
+df['text'] = label_encoder.fit_transform(df['text'])
 
-import mmengine.registry.root
-
-import torch._higher_order_ops.flex_attention
-
-def fun():
-    pass
-
-class apple:
-    def __init__(self):
-        pass
-    
-
-
-if isinstance(fun, type):
-    print("This is a class.")
-else:
-    print("This is not a class.")
+df.to_csv("video_info.csv", index=False)
