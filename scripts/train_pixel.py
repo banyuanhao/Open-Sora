@@ -117,6 +117,9 @@ def main():
         **dataloader_args,
     )
     num_steps_per_epoch = len(dataloader)
+    for batch in dataloader:
+        print(batch['video'].shape)
+        raise NotImplementedError
 
     # ======================================================
     # 3. build model
@@ -179,6 +182,11 @@ def main():
         weight_decay=cfg.get("weight_decay", 0),
         eps=cfg.get("adam_eps", 1e-8),
     )
+    # optimizer = torch.optim.Adam(
+    #     filter(lambda p: p.requires_grad, model.parameters()),
+    #     lr=cfg.get("lr", 1e-4),
+    #     weight_decay=cfg.get("weight_decay", 0),
+    # )
 
     warmup_steps = cfg.get("warmup_steps", None)
 
@@ -292,7 +300,7 @@ def main():
                                 x = x  # 直接使用原始视频数据
                         
                         # 文本编码部分保持不变
-                        if cfg.get("load_text_features", False):
+                        if cfg.get("load_text_features", True):
                             model_args = {"y": y.to(device, dtype)}
                             mask = batch.pop("mask", None)
                             if isinstance(mask, torch.Tensor):
@@ -302,6 +310,7 @@ def main():
                             model_args = {
                                 "y": torch.randn(y.shape[0], text_encoder_model_max_length, text_encoder_output_dim, device=device, dtype=dtype)
                             }
+                            print("Warning: using random text features")
                 if record_time:
                     timer_list.append(encode_t)
 
