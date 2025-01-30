@@ -1,7 +1,7 @@
 # Dataset settings
 dataset = dict(
     type="VariableVideoTextDataset",
-    transform_name="resize_crop",
+    transform_name="resize_crop_fixed",
 )
 
 # backup

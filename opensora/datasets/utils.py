@@ -95,6 +95,15 @@ def get_transforms_video(name="center", image_size=(256, 256)):
                 transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5], inplace=True),
             ]
         )
+    elif name == "resize_crop_fixed":
+        transform_video = transforms.Compose(
+            [
+                video_transforms.ToTensorVideo(),  # TCHW
+                video_transforms.CenterCropResizeVideo(32),
+                video_transforms.CLIPVideoTransform(24),
+                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5], inplace=True),
+            ]
+        )
     else:
         raise NotImplementedError(f"Transform {name} not implemented")
     return transform_video
