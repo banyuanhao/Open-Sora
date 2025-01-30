@@ -63,4 +63,11 @@ I have slightly modify the depth and the dimension of the model. Please refer to
 
 
 
+## training 
+moving the files from opensora.model.model to opensora.model.stdit3
+
+
+```
 torchrun --standalone --nproc_per_node 2 scripts/train_pixel.py     configs/opensora-v1-2/train/pixel.py --data-path video_info.csv
+```
+

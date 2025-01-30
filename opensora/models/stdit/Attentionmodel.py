@@ -475,7 +475,7 @@ class STD3_Attn_Rope(PreTrainedModel):
         return x
 
 
-# @MODELS.register_module("STD3_Attn_Rope_v1")
+@MODELS.register_module("STD3_Attn_Rope_v1")
 def STD3_Attn_Rope_v1(from_pretrained=None, **kwargs):
     force_huggingface = kwargs.pop("force_huggingface", False)
     if force_huggingface or from_pretrained is not None and not os.path.exists(from_pretrained):
