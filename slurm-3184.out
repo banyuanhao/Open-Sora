@@ -1,0 +1,215 @@
+W0130 03:49:52.186000 827270 site-packages/torch/distributed/run.py:793] 
+W0130 03:49:52.186000 827270 site-packages/torch/distributed/run.py:793] *****************************************
+W0130 03:49:52.186000 827270 site-packages/torch/distributed/run.py:793] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0130 03:49:52.186000 827270 site-packages/torch/distributed/run.py:793] *****************************************
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/utils/safetensors.py:13: UserWarning: Please install the latest tensornvme to use async save. pip install git+https://github.com/hpcaitech/TensorNVMe.git
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/utils/safetensors.py:13: UserWarning: Please install the latest tensornvme to use async save. pip install git+https://github.com/hpcaitech/TensorNVMe.git
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/utils/safetensors.py:13: UserWarning: Please install the latest tensornvme to use async save. pip install git+https://github.com/hpcaitech/TensorNVMe.git
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/utils/safetensors.py:13: UserWarning: Please install the latest tensornvme to use async save. pip install git+https://github.com/hpcaitech/TensorNVMe.git
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:48: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn("Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel")
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:93: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:48: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn("Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel")
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:93: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:48: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn("Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel")
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:93: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:48: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn("Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel")
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:93: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn(
+[rank3]:[W130 03:49:58.009233578 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 3]  using GPU 3 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[rank1]:[W130 03:49:58.013209065 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 1]  using GPU 1 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[rank2]:[W130 03:49:58.025798771 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 2]  using GPU 2 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[rank0]:[W130 03:49:58.027410364 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 0]  using GPU 0 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[[34m2025-01-30 03:50:01[0m] Experiment directory created at outputs/016-STDiT3-XL-2
+[[34m2025-01-30 03:50:01[0m] Training configuration:
+ {'adam_eps': 1e-15,
+ 'batch_size': 1,
+ 'bucket_config': {'240p': {16: (1.0, 1)}},
+ 'cache_pin_memory': True,
+ 'ckpt_every': 200,
+ 'config': 'configs/opensora-v1-2/train/stage1.py',
+ 'dataset': {'data_path': 'video_info.csv',
+             'num_frames': 16,
+             'return_mask': True,
+             'transform_name': 'resize_crop',
+             'type': 'VariableVideoTextDataset'},
+ 'drop_last': True,
+ 'dtype': 'bf16',
+ 'ema_decay': 0.99,
+ 'epochs': 1000,
+ 'grad_checkpoint': True,
+ 'grad_clip': 1.0,
+ 'load': None,
+ 'log_every': 10,
+ 'lr': 0.0001,
+ 'mask_ratios': {'image_head': 0.05,
+                 'image_head_tail': 0.025,
+                 'image_random': 0.025,
+                 'image_tail': 0.025,
+                 'intepolate': 0.005,
+                 'quarter_head': 0.005,
+                 'quarter_head_tail': 0.005,
+                 'quarter_random': 0.005,
+                 'quarter_tail': 0.005,
+                 'random': 0.05},
+ 'model': {'enable_flash_attn': True,
+           'enable_layernorm_kernel': False,
+           'freeze_y_embedder': True,
+           'from_pretrained': 'checkpoints',
+           'qk_norm': True,
+           'type': 'STDiT3-XL/2'},
+ 'num_bucket_build_workers': 4,
+ 'num_workers': 4,
+ 'outputs': 'outputs',
+ 'pin_memory_cache_pre_alloc_numels': [325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560],
+ 'plugin': 'zero2',
+ 'record_time': False,
+ 'scheduler': {'sample_method': 'logit-normal',
+               'type': 'rflow',
+               'use_timestep_transform': True},
+ 'seed': 42,
+ 'shuffle': True,
+ 'start_from_scratch': False,
+ 'text_encoder': None,
+ 'text_encoder_model_max_length': 300,
+ 'text_encoder_output_dim': 4096,
+ 'vae': None,
+ 'vae_out_channels': 3,
+ 'wandb': False,
+ 'warmup_steps': 1000}
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/home/chenheng/workspace/video/scripts/train.py", line 445, in <module>
+[rank1]:     main()
+[rank1]:   File "/home/chenheng/workspace/video/scripts/train.py", line 97, in main
+[rank1]:     dataset = build_module(cfg.dataset, DATASETS)
+[rank1]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/chenheng/workspace/video/opensora/registry.py", line 24, in build_module
+[rank1]:     return builder.build(cfg)
+[rank1]:            ^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/mmengine/registry/registry.py", line 570, in build
+[rank1]:     return self.build_func(cfg, *args, **kwargs, registry=self)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/mmengine/registry/build_functions.py", line 123, in build_from_cfg
+[rank1]:     obj = obj_cls(**args)  # type: ignore
+[rank1]:           ^^^^^^^^^^^^^^^
+[rank1]: TypeError: VariableVideoTextDataset.__init__() got an unexpected keyword argument 'return_mask'
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/home/chenheng/workspace/video/scripts/train.py", line 445, in <module>
+[rank2]:     main()
+[rank2]:   File "/home/chenheng/workspace/video/scripts/train.py", line 97, in main
+[rank2]:     dataset = build_module(cfg.dataset, DATASETS)
+[rank2]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/chenheng/workspace/video/opensora/registry.py", line 24, in build_module
+[rank2]:     return builder.build(cfg)
+[rank2]:            ^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/mmengine/registry/registry.py", line 570, in build
+[rank2]:     return self.build_func(cfg, *args, **kwargs, registry=self)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/mmengine/registry/build_functions.py", line 123, in build_from_cfg
+[rank2]:     obj = obj_cls(**args)  # type: ignore
+[rank2]:           ^^^^^^^^^^^^^^^
+[rank2]: TypeError: VariableVideoTextDataset.__init__() got an unexpected keyword argument 'return_mask'
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/home/chenheng/workspace/video/scripts/train.py", line 445, in <module>
+[rank3]:     main()
+[rank3]:   File "/home/chenheng/workspace/video/scripts/train.py", line 97, in main
+[rank3]:     dataset = build_module(cfg.dataset, DATASETS)
+[rank3]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/chenheng/workspace/video/opensora/registry.py", line 24, in build_module
+[rank3]:     return builder.build(cfg)
+[rank3]:            ^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/mmengine/registry/registry.py", line 570, in build
+[rank3]:     return self.build_func(cfg, *args, **kwargs, registry=self)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/mmengine/registry/build_functions.py", line 123, in build_from_cfg
+[rank3]:     obj = obj_cls(**args)  # type: ignore
+[rank3]:           ^^^^^^^^^^^^^^^
+[rank3]: TypeError: VariableVideoTextDataset.__init__() got an unexpected keyword argument 'return_mask'
+[[34m2025-01-30 03:50:01[0m] Building dataset...
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/chenheng/workspace/video/scripts/train.py", line 445, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/chenheng/workspace/video/scripts/train.py", line 97, in main
+[rank0]:     dataset = build_module(cfg.dataset, DATASETS)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/chenheng/workspace/video/opensora/registry.py", line 24, in build_module
+[rank0]:     return builder.build(cfg)
+[rank0]:            ^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/mmengine/registry/registry.py", line 570, in build
+[rank0]:     return self.build_func(cfg, *args, **kwargs, registry=self)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/mmengine/registry/build_functions.py", line 123, in build_from_cfg
+[rank0]:     obj = obj_cls(**args)  # type: ignore
+[rank0]:           ^^^^^^^^^^^^^^^
+[rank0]: TypeError: VariableVideoTextDataset.__init__() got an unexpected keyword argument 'return_mask'
+[rank0]:[W130 03:50:02.735251788 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())
+W0130 03:50:03.103000 827270 site-packages/torch/distributed/elastic/multiprocessing/api.py:897] Sending process 827290 closing signal SIGTERM
+W0130 03:50:03.103000 827270 site-packages/torch/distributed/elastic/multiprocessing/api.py:897] Sending process 827291 closing signal SIGTERM
+E0130 03:50:03.317000 827270 site-packages/torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 2 (pid: 827292) of binary: /home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/bin/python
+Traceback (most recent call last):
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/distributed/run.py", line 919, in main
+    run(args)
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/distributed/run.py", line 910, in run
+    elastic_launch(
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+scripts/train.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2025-01-30_03:50:03
+  host      : h100-02.cm.cluster
+  rank      : 3 (local_rank: 3)
+  exitcode  : 1 (pid: 827293)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-01-30_03:50:03
+  host      : h100-02.cm.cluster
+  rank      : 2 (local_rank: 2)
+  exitcode  : 1 (pid: 827292)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

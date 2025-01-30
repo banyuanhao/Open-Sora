@@ -1,0 +1,304 @@
+[[34m2025-01-30 03:43:55[0m] Experiment directory created at outputs/012-STDiT3-XL-2
+[[34m2025-01-30 03:43:55[0m] Training configuration:
+ {'adam_eps': 1e-15,
+ 'batch_size': 1,
+ 'bucket_config': {'144p': {1: (1.0, 32)}, '256': {1: (0.4, 32)}},
+ 'cache_pin_memory': True,
+ 'ckpt_every': 200,
+ 'config': 'configs/opensora-v1-2/train/stage1.py',
+ 'dataset': {'data_path': 'video_info.csv',
+             'num_frames': 16,
+             'transform_name': 'resize_crop',
+             'type': 'VariableVideoTextDataset'},
+ 'drop_last': True,
+ 'dtype': 'bf16',
+ 'ema_decay': 0.99,
+ 'epochs': 1000,
+ 'grad_checkpoint': True,
+ 'grad_clip': 1.0,
+ 'load': None,
+ 'log_every': 10,
+ 'lr': 0.0001,
+ 'mask_ratios': {'image_head': 0.05,
+                 'image_head_tail': 0.025,
+                 'image_random': 0.025,
+                 'image_tail': 0.025,
+                 'intepolate': 0.005,
+                 'quarter_head': 0.005,
+                 'quarter_head_tail': 0.005,
+                 'quarter_random': 0.005,
+                 'quarter_tail': 0.005,
+                 'random': 0.05},
+ 'model': {'enable_flash_attn': True,
+           'enable_layernorm_kernel': False,
+           'freeze_y_embedder': True,
+           'from_pretrained': 'checkpoints',
+           'qk_norm': True,
+           'type': 'STDiT3-XL/2'},
+ 'num_bucket_build_workers': 4,
+ 'num_workers': 4,
+ 'outputs': 'outputs',
+ 'pin_memory_cache_pre_alloc_numels': [325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560],
+ 'plugin': 'zero2',
+ 'record_time': False,
+ 'scheduler': {'sample_method': 'logit-normal',
+               'type': 'rflow',
+               'use_timestep_transform': True},
+ 'seed': 42,
+ 'shuffle': True,
+ 'start_from_scratch': False,
+ 'text_encoder': None,
+ 'text_encoder_model_max_length': 300,
+ 'text_encoder_output_dim': 4096,
+ 'vae': None,
+ 'vae_out_channels': 3,
+ 'wandb': False,
+ 'warmup_steps': 1000}
+[[34m2025-01-30 03:43:55[0m] Building dataset...
+[[34m2025-01-30 03:43:55[0m] Dataset contains 13320 samples.
+[[34m2025-01-30 03:43:55[0m] Number of buckets: 57
+[[34m2025-01-30 03:43:55[0m] Building buckets...
+[[34m2025-01-30 03:43:55[0m] Bucket Info:
+[[34m2025-01-30 03:43:55[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:43:55[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:43:55[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:43:55[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:43:55[0m] Building models...
+[[34m2025-01-30 03:44:06[0m] [Diffusion] Trainable model params: 1.12 B, Total model params: 1.12 B
+[[34m2025-01-30 03:44:09[0m] mask ratios: {'random': 0.05, 'intepolate': 0.005, 'quarter_random': 0.005, 'quarter_head': 0.005, 'quarter_tail': 0.005, 'quarter_head_tail': 0.005, 'image_random': 0.025, 'image_head': 0.05, 'image_tail': 0.025, 'image_head_tail': 0.025, 'identity': 0.8}
+[[34m2025-01-30 03:44:09[0m] Preparing for distributed training...
+[[34m2025-01-30 03:44:09[0m] Boosting model for distributed training
+[[34m2025-01-30 03:44:09[0m] Training for 1000 epochs with 0 steps per epoch
+[[34m2025-01-30 03:44:16[0m] Beginning epoch 0...
+[[34m2025-01-30 03:44:23[0m] Building buckets...
+[[34m2025-01-30 03:44:24[0m] Bucket Info:
+[[34m2025-01-30 03:44:24[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:24[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:24[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:24[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:24[0m] Beginning epoch 1...
+[[34m2025-01-30 03:44:25[0m] Building buckets...
+[[34m2025-01-30 03:44:26[0m] Bucket Info:
+[[34m2025-01-30 03:44:26[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:26[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:26[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:26[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:26[0m] Beginning epoch 2...
+[[34m2025-01-30 03:44:27[0m] Building buckets...
+[[34m2025-01-30 03:44:28[0m] Bucket Info:
+[[34m2025-01-30 03:44:28[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:28[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:28[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:28[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:28[0m] Beginning epoch 3...
+[[34m2025-01-30 03:44:28[0m] Building buckets...
+[[34m2025-01-30 03:44:29[0m] Bucket Info:
+[[34m2025-01-30 03:44:29[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:29[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:29[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:29[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:29[0m] Beginning epoch 4...
+[[34m2025-01-30 03:44:30[0m] Building buckets...
+[[34m2025-01-30 03:44:31[0m] Bucket Info:
+[[34m2025-01-30 03:44:31[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:31[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:31[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:31[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:31[0m] Beginning epoch 5...
+[[34m2025-01-30 03:44:32[0m] Building buckets...
+[[34m2025-01-30 03:44:33[0m] Bucket Info:
+[[34m2025-01-30 03:44:33[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:33[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:33[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:33[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:33[0m] Beginning epoch 6...
+[[34m2025-01-30 03:44:33[0m] Building buckets...
+[[34m2025-01-30 03:44:34[0m] Bucket Info:
+[[34m2025-01-30 03:44:34[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:34[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:34[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:34[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:34[0m] Beginning epoch 7...
+[[34m2025-01-30 03:44:35[0m] Building buckets...
+[[34m2025-01-30 03:44:36[0m] Bucket Info:
+[[34m2025-01-30 03:44:36[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:36[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:36[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:36[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:36[0m] Beginning epoch 8...
+[[34m2025-01-30 03:44:36[0m] Building buckets...
+[[34m2025-01-30 03:44:37[0m] Bucket Info:
+[[34m2025-01-30 03:44:37[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:37[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:37[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:37[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:37[0m] Beginning epoch 9...
+[[34m2025-01-30 03:44:38[0m] Building buckets...
+[[34m2025-01-30 03:44:39[0m] Bucket Info:
+[[34m2025-01-30 03:44:39[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:39[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:39[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:39[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:39[0m] Beginning epoch 10...
+[[34m2025-01-30 03:44:40[0m] Building buckets...
+[[34m2025-01-30 03:44:41[0m] Bucket Info:
+[[34m2025-01-30 03:44:41[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:41[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:41[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:41[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:41[0m] Beginning epoch 11...
+[[34m2025-01-30 03:44:42[0m] Building buckets...
+[[34m2025-01-30 03:44:42[0m] Bucket Info:
+[[34m2025-01-30 03:44:42[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:42[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:42[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:42[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:42[0m] Beginning epoch 12...
+[[34m2025-01-30 03:44:43[0m] Building buckets...
+[[34m2025-01-30 03:44:44[0m] Bucket Info:
+[[34m2025-01-30 03:44:44[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:44[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:44[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:44[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:44[0m] Beginning epoch 13...
+[[34m2025-01-30 03:44:45[0m] Building buckets...
+[[34m2025-01-30 03:44:46[0m] Bucket Info:
+[[34m2025-01-30 03:44:46[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:46[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:46[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:46[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:46[0m] Beginning epoch 14...
+[[34m2025-01-30 03:44:46[0m] Building buckets...
+[[34m2025-01-30 03:44:47[0m] Bucket Info:
+[[34m2025-01-30 03:44:47[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:47[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:47[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:47[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:47[0m] Beginning epoch 15...
+[[34m2025-01-30 03:44:48[0m] Building buckets...
+[[34m2025-01-30 03:44:49[0m] Bucket Info:
+[[34m2025-01-30 03:44:49[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:49[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:49[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:49[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:49[0m] Beginning epoch 16...
+[[34m2025-01-30 03:44:50[0m] Building buckets...
+[[34m2025-01-30 03:44:51[0m] Bucket Info:
+[[34m2025-01-30 03:44:51[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:51[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:51[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:51[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:51[0m] Beginning epoch 17...
+[[34m2025-01-30 03:44:51[0m] Building buckets...
+[[34m2025-01-30 03:44:52[0m] Bucket Info:
+[[34m2025-01-30 03:44:52[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:52[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:52[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:52[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:52[0m] Beginning epoch 18...
+[[34m2025-01-30 03:44:53[0m] Building buckets...
+[[34m2025-01-30 03:44:54[0m] Bucket Info:
+[[34m2025-01-30 03:44:54[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:54[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:54[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:54[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:54[0m] Beginning epoch 19...
+[[34m2025-01-30 03:44:55[0m] Building buckets...
+[[34m2025-01-30 03:44:56[0m] Bucket Info:
+[[34m2025-01-30 03:44:56[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:56[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:56[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:56[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:56[0m] Beginning epoch 20...
+[[34m2025-01-30 03:44:56[0m] Building buckets...
+[[34m2025-01-30 03:44:57[0m] Bucket Info:
+[[34m2025-01-30 03:44:57[0m] Bucket [#sample, #batch] by aspect ratio:
+{}
+[[34m2025-01-30 03:44:57[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:57[0m] Video Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:44:57[0m] #training batch: 0, #training sample: 0, #non empty bucket: 0
+[[34m2025-01-30 03:44:57[0m] Beginning epoch 21...

@@ -1,0 +1,344 @@
+W0130 03:50:42.075000 827993 site-packages/torch/distributed/run.py:793] 
+W0130 03:50:42.075000 827993 site-packages/torch/distributed/run.py:793] *****************************************
+W0130 03:50:42.075000 827993 site-packages/torch/distributed/run.py:793] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0130 03:50:42.075000 827993 site-packages/torch/distributed/run.py:793] *****************************************
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/utils/safetensors.py:13: UserWarning: Please install the latest tensornvme to use async save. pip install git+https://github.com/hpcaitech/TensorNVMe.git
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/utils/safetensors.py:13: UserWarning: Please install the latest tensornvme to use async save. pip install git+https://github.com/hpcaitech/TensorNVMe.git
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/utils/safetensors.py:13: UserWarning: Please install the latest tensornvme to use async save. pip install git+https://github.com/hpcaitech/TensorNVMe.git
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/utils/safetensors.py:13: UserWarning: Please install the latest tensornvme to use async save. pip install git+https://github.com/hpcaitech/TensorNVMe.git
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:48: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn("Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel")
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:93: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:48: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn("Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel")
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:93: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:48: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn("Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel")
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:93: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn(
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:48: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn("Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel")
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/colossalai/shardformer/layer/normalization.py:93: UserWarning: Please install apex from source (https://github.com/NVIDIA/apex) to use the fused RMSNorm kernel
+  warnings.warn(
+[rank0]:[W130 03:50:48.550768378 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 0]  using GPU 0 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[rank3]:[W130 03:50:48.592341048 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 3]  using GPU 3 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[rank1]:[W130 03:50:48.630102793 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 1]  using GPU 1 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[rank2]:[W130 03:50:48.656276422 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 2]  using GPU 2 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[[34m2025-01-30 03:50:50[0m] Experiment directory created at outputs/017-STDiT3-XL-2
+[[34m2025-01-30 03:50:50[0m] Training configuration:
+ {'adam_eps': 1e-15,
+ 'batch_size': 1,
+ 'bucket_config': {'240p': {16: (1.0, 1)}},
+ 'cache_pin_memory': True,
+ 'ckpt_every': 200,
+ 'config': 'configs/opensora-v1-2/train/stage1.py',
+ 'dataset': {'data_path': 'video_info.csv',
+             'num_frames': 16,
+             'transform_name': 'resize_crop',
+             'type': 'VariableVideoTextDataset'},
+ 'drop_last': True,
+ 'dtype': 'bf16',
+ 'ema_decay': 0.99,
+ 'epochs': 1000,
+ 'grad_checkpoint': True,
+ 'grad_clip': 1.0,
+ 'load': None,
+ 'log_every': 10,
+ 'lr': 0.0001,
+ 'mask_ratios': {'image_head': 0.05,
+                 'image_head_tail': 0.025,
+                 'image_random': 0.025,
+                 'image_tail': 0.025,
+                 'intepolate': 0.005,
+                 'quarter_head': 0.005,
+                 'quarter_head_tail': 0.005,
+                 'quarter_random': 0.005,
+                 'quarter_tail': 0.005,
+                 'random': 0.05},
+ 'model': {'enable_flash_attn': True,
+           'enable_layernorm_kernel': False,
+           'freeze_y_embedder': True,
+           'from_pretrained': 'checkpoints',
+           'qk_norm': True,
+           'type': 'STDiT3-XL/2'},
+ 'num_bucket_build_workers': 4,
+ 'num_workers': 4,
+ 'outputs': 'outputs',
+ 'pin_memory_cache_pre_alloc_numels': [325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560],
+ 'plugin': 'zero2',
+ 'record_time': False,
+ 'scheduler': {'sample_method': 'logit-normal',
+               'type': 'rflow',
+               'use_timestep_transform': True},
+ 'seed': 42,
+ 'shuffle': True,
+ 'start_from_scratch': False,
+ 'text_encoder': None,
+ 'text_encoder_model_max_length': 300,
+ 'text_encoder_output_dim': 4096,
+ 'vae': None,
+ 'vae_out_channels': 3,
+ 'wandb': False,
+ 'warmup_steps': 1000}
+[[34m2025-01-30 03:50:51[0m] Building dataset...
+INFO: Pandarallel will run on 4 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will run on 4 workers.INFO: Pandarallel will run on 4 workers.
+
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+[[34m2025-01-30 03:50:51[0m] Dataset contains 13320 samples.
+[[34m2025-01-30 03:50:51[0m] Number of buckets: 17
+INFO: Pandarallel will run on 4 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+[[34m2025-01-30 03:50:51[0m] Building buckets...
+[[34m2025-01-30 03:50:51[0m] Bucket Info:
+[[34m2025-01-30 03:50:51[0m] Bucket [#sample, #batch] by aspect ratio:
+{'0.56': [4, 4]}
+[[34m2025-01-30 03:50:51[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:50:51[0m] Video Bucket [#sample, #batch] by HxWxT:
+{('240p', 16): [4, 4]}
+[[34m2025-01-30 03:50:51[0m] #training batch: 4, #training sample: 4, #non empty bucket: 1
+[[34m2025-01-30 03:50:51[0m] Building models...
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/rotary_embedding_torch/rotary_embedding_torch.py:35: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/rotary_embedding_torch/rotary_embedding_torch.py:35: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/rotary_embedding_torch/rotary_embedding_torch.py:35: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/rotary_embedding_torch/rotary_embedding_torch.py:35: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/rotary_embedding_torch/rotary_embedding_torch.py:253: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/rotary_embedding_torch/rotary_embedding_torch.py:253: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/rotary_embedding_torch/rotary_embedding_torch.py:253: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/rotary_embedding_torch/rotary_embedding_torch.py:253: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast(enabled = False)
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/diffusers/models/transformers/transformer_2d.py:34: FutureWarning: `Transformer2DModelOutput` is deprecated and will be removed in version 1.0.0. Importing `Transformer2DModelOutput` from `diffusers.models.transformer_2d` is deprecated and this will be removed in a future version. Please use `from diffusers.models.modeling_outputs import Transformer2DModelOutput`, instead.
+  deprecate("Transformer2DModelOutput", "1.0.0", deprecation_message)
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/diffusers/models/transformers/transformer_2d.py:34: FutureWarning: `Transformer2DModelOutput` is deprecated and will be removed in version 1.0.0. Importing `Transformer2DModelOutput` from `diffusers.models.transformer_2d` is deprecated and this will be removed in a future version. Please use `from diffusers.models.modeling_outputs import Transformer2DModelOutput`, instead.
+  deprecate("Transformer2DModelOutput", "1.0.0", deprecation_message)
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/diffusers/models/transformers/transformer_2d.py:34: FutureWarning: `Transformer2DModelOutput` is deprecated and will be removed in version 1.0.0. Importing `Transformer2DModelOutput` from `diffusers.models.transformer_2d` is deprecated and this will be removed in a future version. Please use `from diffusers.models.modeling_outputs import Transformer2DModelOutput`, instead.
+  deprecate("Transformer2DModelOutput", "1.0.0", deprecation_message)
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/diffusers/models/transformers/transformer_2d.py:34: FutureWarning: `Transformer2DModelOutput` is deprecated and will be removed in version 1.0.0. Importing `Transformer2DModelOutput` from `diffusers.models.transformer_2d` is deprecated and this will be removed in a future version. Please use `from diffusers.models.modeling_outputs import Transformer2DModelOutput`, instead.
+  deprecate("Transformer2DModelOutput", "1.0.0", deprecation_message)
+[[34m2025-01-30 03:51:01[0m] [Diffusion] Trainable model params: 1.12 B, Total model params: 1.12 B
+[extension] Loading the JIT-built cpu_adam_x86 kernel during runtime now
+[extension] Loading the JIT-built cpu_adam_x86 kernel during runtime now
+[extension] Time taken to load cpu_adam_x86 op: 0.014249563217163086 seconds
+[extension] Loading the JIT-built fused_optim_cuda kernel during runtime now
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/cpp_extension.py:1964: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
+[extension] Loading the JIT-built cpu_adam_x86 kernel during runtime now
+[extension] Loading the JIT-built cpu_adam_x86 kernel during runtime now
+[extension] Time taken to load fused_optim_cuda op: 0.4050745964050293 seconds
+[extension] Time taken to load cpu_adam_x86 op: 0.40322446823120117 seconds
+[extension] Loading the JIT-built fused_optim_cuda kernel during runtime now
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/cpp_extension.py:1964: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
+[extension] Time taken to load fused_optim_cuda op: 0.020867586135864258 seconds
+[extension] Time taken to load cpu_adam_x86 op: 0.40349507331848145 seconds
+[extension] Loading the JIT-built fused_optim_cuda kernel during runtime now
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/cpp_extension.py:1964: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
+[extension] Time taken to load fused_optim_cuda op: 0.020881175994873047 seconds
+[extension] Time taken to load cpu_adam_x86 op: 0.5030384063720703 seconds
+[extension] Loading the JIT-built fused_optim_cuda kernel during runtime now
+[[34m2025-01-30 03:51:04[0m] mask ratios: {'random': 0.05, 'intepolate': 0.005, 'quarter_random': 0.005, 'quarter_head': 0.005, 'quarter_tail': 0.005, 'quarter_head_tail': 0.005, 'image_random': 0.025, 'image_head': 0.05, 'image_tail': 0.025, 'image_head_tail': 0.025, 'identity': 0.8}
+[[34m2025-01-30 03:51:04[0m] Preparing for distributed training...
+/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/cpp_extension.py:1964: UserWarning: TORCH_CUDA_ARCH_LIST is not set, all archs for visible cards are included for compilation. 
+If this is not desired, please set os.environ['TORCH_CUDA_ARCH_LIST'].
+  warnings.warn(
+[extension] Time taken to load fused_optim_cuda op: 0.020641565322875977 seconds
+[[34m2025-01-30 03:51:04[0m] Boosting model for distributed training
+[[34m2025-01-30 03:51:04[0m] Training for 1000 epochs with 1 steps per epoch
+[[34m2025-01-30 03:51:11[0m] Beginning epoch 0...
+Epoch 0:   0%|          | 0/1 [00:00<?, ?it/s]Epoch 0:   0%|          | 0/1 [00:00<?, ?it/s]
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/chenheng/workspace/video/scripts/train.py", line 445, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/chenheng/workspace/video/scripts/train.py", line 271, in main
+[rank0]:     for step, batch in pbar:
+[rank0]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/tqdm/std.py", line 1181, in __iter__
+[rank0]:     for obj in iterable:
+[rank0]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+[rank0]:     data = self._next_data()
+[rank0]:            ^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1465, in _next_data
+[rank0]:     return self._process_data(data)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1491, in _process_data
+[rank0]:     data.reraise()
+[rank0]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/_utils.py", line 715, in reraise
+[rank0]:     raise exception
+[rank0]: IndexError: Caught IndexError in DataLoader worker process 0.
+[rank0]: Original Traceback (most recent call last):
+[rank0]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/_utils/worker.py", line 351, in _worker_loop
+[rank0]:     data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+[rank0]:     return self.collate_fn(data)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/chenheng/workspace/video/opensora/datasets/dataloader.py", line 321, in collate_fn_default
+[rank0]:     if "mask" in batch[0] and isinstance(batch[0]["mask"], int):
+[rank0]:                  ~~~~~^^^
+[rank0]: IndexError: list index out of range
+
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/home/chenheng/workspace/video/scripts/train.py", line 445, in <module>
+[rank1]:     main()
+[rank1]:   File "/home/chenheng/workspace/video/scripts/train.py", line 271, in main
+[rank1]:     for step, batch in pbar:
+[rank1]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/tqdm/std.py", line 1169, in __iter__
+[rank1]:     for obj in iterable:
+[rank1]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+[rank1]:     data = self._next_data()
+[rank1]:            ^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1465, in _next_data
+[rank1]:     return self._process_data(data)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1491, in _process_data
+[rank1]:     data.reraise()
+[rank1]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/_utils.py", line 715, in reraise
+[rank1]:     raise exception
+[rank1]: IndexError: Caught IndexError in DataLoader worker process 0.
+[rank1]: Original Traceback (most recent call last):
+[rank1]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/_utils/worker.py", line 351, in _worker_loop
+[rank1]:     data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+[rank1]:     return self.collate_fn(data)
+[rank1]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank1]:   File "/home/chenheng/workspace/video/opensora/datasets/dataloader.py", line 321, in collate_fn_default
+[rank1]:     if "mask" in batch[0] and isinstance(batch[0]["mask"], int):
+[rank1]:                  ~~~~~^^^
+[rank1]: IndexError: list index out of range
+
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/home/chenheng/workspace/video/scripts/train.py", line 445, in <module>
+[rank2]:     main()
+[rank2]:   File "/home/chenheng/workspace/video/scripts/train.py", line 271, in main
+[rank2]:     for step, batch in pbar:
+[rank2]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/tqdm/std.py", line 1169, in __iter__
+[rank2]:     for obj in iterable:
+[rank2]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+[rank2]:     data = self._next_data()
+[rank2]:            ^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1465, in _next_data
+[rank2]:     return self._process_data(data)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1491, in _process_data
+[rank2]:     data.reraise()
+[rank2]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/_utils.py", line 715, in reraise
+[rank2]:     raise exception
+[rank2]: IndexError: Caught IndexError in DataLoader worker process 0.
+[rank2]: Original Traceback (most recent call last):
+[rank2]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/_utils/worker.py", line 351, in _worker_loop
+[rank2]:     data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+[rank2]:     return self.collate_fn(data)
+[rank2]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank2]:   File "/home/chenheng/workspace/video/opensora/datasets/dataloader.py", line 321, in collate_fn_default
+[rank2]:     if "mask" in batch[0] and isinstance(batch[0]["mask"], int):
+[rank2]:                  ~~~~~^^^
+[rank2]: IndexError: list index out of range
+
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/home/chenheng/workspace/video/scripts/train.py", line 445, in <module>
+[rank3]:     main()
+[rank3]:   File "/home/chenheng/workspace/video/scripts/train.py", line 271, in main
+[rank3]:     for step, batch in pbar:
+[rank3]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/tqdm/std.py", line 1169, in __iter__
+[rank3]:     for obj in iterable:
+[rank3]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+[rank3]:     data = self._next_data()
+[rank3]:            ^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1465, in _next_data
+[rank3]:     return self._process_data(data)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1491, in _process_data
+[rank3]:     data.reraise()
+[rank3]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/_utils.py", line 715, in reraise
+[rank3]:     raise exception
+[rank3]: IndexError: Caught IndexError in DataLoader worker process 0.
+[rank3]: Original Traceback (most recent call last):
+[rank3]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/_utils/worker.py", line 351, in _worker_loop
+[rank3]:     data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+[rank3]:     return self.collate_fn(data)
+[rank3]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank3]:   File "/home/chenheng/workspace/video/opensora/datasets/dataloader.py", line 321, in collate_fn_default
+[rank3]:     if "mask" in batch[0] and isinstance(batch[0]["mask"], int):
+[rank3]:                  ~~~~~^^^
+[rank3]: IndexError: list index out of range
+
+[rank0]:[W130 03:51:12.020750207 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())
+W0130 03:51:15.882000 827993 site-packages/torch/distributed/elastic/multiprocessing/api.py:897] Sending process 828012 closing signal SIGTERM
+W0130 03:51:15.883000 827993 site-packages/torch/distributed/elastic/multiprocessing/api.py:897] Sending process 828013 closing signal SIGTERM
+W0130 03:51:15.883000 827993 site-packages/torch/distributed/elastic/multiprocessing/api.py:897] Sending process 828014 closing signal SIGTERM
+E0130 03:51:19.665000 827993 site-packages/torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: 1) local_rank: 3 (pid: 828015) of binary: /home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/bin/python
+Traceback (most recent call last):
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/distributed/run.py", line 919, in main
+    run(args)
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/distributed/run.py", line 910, in run
+    elastic_launch(
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/chenheng/miniconda3/envs/opensora_3.11_2.5.1/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+scripts/train.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-01-30_03:51:15
+  host      : h100-02.cm.cluster
+  rank      : 3 (local_rank: 3)
+  exitcode  : 1 (pid: 828015)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

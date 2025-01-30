@@ -1,0 +1,1 @@
+srun --partition=hgx --gres=gpu:4 --nodes=1 --ntasks=1 --cpus-per-task=16 --time=1:00:00 --comment="video" --pty bash

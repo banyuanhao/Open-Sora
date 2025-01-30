@@ -1,0 +1,94 @@
+[[34m2025-01-30 03:50:50[0m] Experiment directory created at outputs/017-STDiT3-XL-2
+[[34m2025-01-30 03:50:50[0m] Training configuration:
+ {'adam_eps': 1e-15,
+ 'batch_size': 1,
+ 'bucket_config': {'240p': {16: (1.0, 1)}},
+ 'cache_pin_memory': True,
+ 'ckpt_every': 200,
+ 'config': 'configs/opensora-v1-2/train/stage1.py',
+ 'dataset': {'data_path': 'video_info.csv',
+             'num_frames': 16,
+             'transform_name': 'resize_crop',
+             'type': 'VariableVideoTextDataset'},
+ 'drop_last': True,
+ 'dtype': 'bf16',
+ 'ema_decay': 0.99,
+ 'epochs': 1000,
+ 'grad_checkpoint': True,
+ 'grad_clip': 1.0,
+ 'load': None,
+ 'log_every': 10,
+ 'lr': 0.0001,
+ 'mask_ratios': {'image_head': 0.05,
+                 'image_head_tail': 0.025,
+                 'image_random': 0.025,
+                 'image_tail': 0.025,
+                 'intepolate': 0.005,
+                 'quarter_head': 0.005,
+                 'quarter_head_tail': 0.005,
+                 'quarter_random': 0.005,
+                 'quarter_tail': 0.005,
+                 'random': 0.05},
+ 'model': {'enable_flash_attn': True,
+           'enable_layernorm_kernel': False,
+           'freeze_y_embedder': True,
+           'from_pretrained': 'checkpoints',
+           'qk_norm': True,
+           'type': 'STDiT3-XL/2'},
+ 'num_bucket_build_workers': 4,
+ 'num_workers': 4,
+ 'outputs': 'outputs',
+ 'pin_memory_cache_pre_alloc_numels': [325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560,
+                                       325058560],
+ 'plugin': 'zero2',
+ 'record_time': False,
+ 'scheduler': {'sample_method': 'logit-normal',
+               'type': 'rflow',
+               'use_timestep_transform': True},
+ 'seed': 42,
+ 'shuffle': True,
+ 'start_from_scratch': False,
+ 'text_encoder': None,
+ 'text_encoder_model_max_length': 300,
+ 'text_encoder_output_dim': 4096,
+ 'vae': None,
+ 'vae_out_channels': 3,
+ 'wandb': False,
+ 'warmup_steps': 1000}
+[[34m2025-01-30 03:50:51[0m] Building dataset...
+[[34m2025-01-30 03:50:51[0m] Dataset contains 13320 samples.
+[[34m2025-01-30 03:50:51[0m] Number of buckets: 17
+[[34m2025-01-30 03:50:51[0m] Building buckets...
+[[34m2025-01-30 03:50:51[0m] Bucket Info:
+[[34m2025-01-30 03:50:51[0m] Bucket [#sample, #batch] by aspect ratio:
+{'0.56': [4, 4]}
+[[34m2025-01-30 03:50:51[0m] Image Bucket [#sample, #batch] by HxWxT:
+{}
+[[34m2025-01-30 03:50:51[0m] Video Bucket [#sample, #batch] by HxWxT:
+{('240p', 16): [4, 4]}
+[[34m2025-01-30 03:50:51[0m] #training batch: 4, #training sample: 4, #non empty bucket: 1
+[[34m2025-01-30 03:50:51[0m] Building models...
+[[34m2025-01-30 03:51:01[0m] [Diffusion] Trainable model params: 1.12 B, Total model params: 1.12 B
+[[34m2025-01-30 03:51:04[0m] mask ratios: {'random': 0.05, 'intepolate': 0.005, 'quarter_random': 0.005, 'quarter_head': 0.005, 'quarter_tail': 0.005, 'quarter_head_tail': 0.005, 'image_random': 0.025, 'image_head': 0.05, 'image_tail': 0.025, 'image_head_tail': 0.025, 'identity': 0.8}
+[[34m2025-01-30 03:51:04[0m] Preparing for distributed training...
+[[34m2025-01-30 03:51:04[0m] Boosting model for distributed training
+[[34m2025-01-30 03:51:04[0m] Training for 1000 epochs with 1 steps per epoch
+[[34m2025-01-30 03:51:11[0m] Beginning epoch 0...
