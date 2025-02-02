@@ -88,17 +88,17 @@ def center_crop(clip, crop_size):
     j = int(round((w - tw) / 2.0))
     return crop(clip, i, j, th, tw)
 
-def clipping(clip, len):
+def clipping(clip, len, stride):
     if not _is_tensor_video_clip(clip):
         raise ValueError("clip should be a 4D torch.tensor")
     T = clip.size(0)
-    if T < len:
+    if T < len * stride:
         raise ValueError("clip length is smaller than the desired length")
-    elif T == len:
-        return clip
+    elif T == len * stride:
+        return clip[::stride]
     else:
-        start = torch.randint(0, T - len + 1, (1,)).item()
-        return clip[start : start + len]
+        start = torch.randint(0, T - len * stride + 1, (1,)).item()
+        return clip[start : start + len * stride : stride]
 
 
 def center_crop_using_short_edge(clip):
@@ -204,12 +204,13 @@ def hflip(clip):
     return clip.flip(-1)
 
 class CLIPVideoTransform:
-    def __init__(self, len):
+    def __init__(self, len, stride):
         self.len = len
+        self.stride = stride
     def __call__(self, clip):
-        return clipping(clip, self.len)
+        return clipping(clip, self.len, self.stride)
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(len={self.len})"
+        return f"{self.__class__.__name__}(len={self.len}, stride={self.stride})"
 
 class ResizeCrop:
     def __init__(self, size):
