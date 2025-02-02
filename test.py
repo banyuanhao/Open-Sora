@@ -1,8 +1,11 @@
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
 
 df = pd.read_csv('video_info.csv')
-label_encoder = LabelEncoder()
-df['text'] = label_encoder.fit_transform(df['text'])
-
-df.to_csv("video_info.csv", index=False)
+data = df['num_frames']
+# find the minimum number of frames
+min_frames = min(data)
+# find the 10th percentile of the number of frames
+percentile_10 = df['num_frames'].quantile(0.20)
+# find the 90th percentile of the number of frames
+percentile_90 = df['num_frames'].quantile(0.9)
+print(min_frames, percentile_10, percentile_90)
