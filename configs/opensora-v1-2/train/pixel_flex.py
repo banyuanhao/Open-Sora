@@ -49,6 +49,8 @@ model = dict(
     enable_layernorm_kernel=False,
     freeze_y_embedder=True,
 )
+score_function = "brownian"
+
 vae = dict(
     type="OpenSoraVAE_V1_2",
     from_pretrained=None,

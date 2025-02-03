@@ -330,6 +330,11 @@ def main():
 
                 if cache_pin_memory:
                     dataloader_iter.remove_cache(pinned_video)
+                
+                if cfg.get("score_function", None) is not None:
+                    if cfg.score_function == "brownian":
+                        from opensora.models.stdit.score_functions import score_brownian
+                        model_args["score_function"] = score_brownian
 
                 # == diffusion loss computation ==
                 with timers["diffusion"] as loss_t:

@@ -679,3 +679,5 @@ pip install git+https://github.com/hpcaitech/TensorNVMe.git
 
 
 torchrun --standalone --nproc_per_node 1 scripts/train_pixel.py     configs/opensora-v1-2/train/pixel.py --data-path video_info.csv
+
+torchrun --standalone --nproc_per_node 1 scripts/train_pixel.py     configs/opensora-v1-2/train/pixel.py --data-path video_info.csv
