@@ -78,13 +78,13 @@ def get_transforms_video(name="center", image_size=(256, 256)):
     if name is None:
         return None
     elif name == "center":
-        assert image_size[0] == image_size[1], "image_size must be square for center crop"
+        # assert image_size[0] == image_size[1], "image_size must be square for center crop"
         transform_video = transforms.Compose(
             [
                 video_transforms.ToTensorVideo(),  # TCHW
                 # video_transforms.RandomHorizontalFlipVideo(),
-                video_transforms.UCFCenterCropVideo(image_size[0]),
-                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5], inplace=True),
+                # video_transforms.UCFCenterCropVideo(image_size[0]),
+                # transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5], inplace=True),
             ]
         )
     elif name == "resize_crop":
