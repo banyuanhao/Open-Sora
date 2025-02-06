@@ -1,0 +1,12 @@
+variables:
+  batch_size_videos: 64
+  # Batch size for image data
+  batch_size_images: 64
+
+dataset: !include configs/yban/dataset/getty/val_concat.yaml
+# dataset: !include configs/yban/dataset/multi/val_concat.yaml
+
+transforms: !include configs/yban/transforms/transform_concat.yaml
+# transforms: !include  configs/experiments/alldata_17f_multiresolution_varaspect/transforms.yaml
+
+connection_manager: !include configs/yban/tests/shuffled_webdataset_dataset_test_images/connection_manager_config.yaml
